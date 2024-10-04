@@ -1,0 +1,14 @@
+Settings used in Res-Workspace
+
+Tab Properties:
+  - command line:  %script%
+  - run hidden: tick to on
+  - run once: no
+  - run task: at sign-in after other actions
+
+Tab Script:
+  cd \\SMB-share\path\to\Signatures  
+  powershell start-process -windowsstyle hidden -filepath install.cmd
+
+Tab Access Control
+ add the "Set-OutlookSignature group"
