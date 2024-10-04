@@ -1,0 +1,114 @@
+#Keep track of you current version number. 
+#000000 is the initial version.
+# I use ---------------------- as a break between the different directions you need to do
+#directions are preceded by a *
+
+* Download the new version from: https://github.com/Set-OutlookSignatures
+* Unzip it to a folder, your temp install directory, on your system
+* Download the license file amd put the license.dll in your temp install directory where Set-OutlookSignatures.ps1 is
+* copy or create the install.bat here
+* Edit "Set-OutlookSignatures.ps1"
+
+* Add this in the Top Comments just above : .DESCRIPTION
+
+************	This file is changed to version 1	 ************
+				
+-------------------------------------
+  
+* Insert the new WriteLog function block just above: function ToSemVer
+
+function WriteLog
+		{
+		Param ([string]$LogString)
+		$Stamp = (Get-Date).toString("yyyy/MM/dd HH:mm:ss")
+		$LogMessage = "$Stamp $LogString"
+		Add-content $LogFile -value $LogMessage
+		}
+
+-------------------------------------
+* Insert on the beginning of the program execution - just below: "Initially executed code starts here "  but before try { )  
+
+# ******************************************   IMPORTANT --> Change Versie numbers **********************************
+$Version_old = "000000"
+$Version_new = "000001"
+
+#where should the log file go
+					$localapps= [System.Environment]::GetFolderPath("LocalApplicationData");
+					$LocalFilePath = join-Path  $localapps -childpath "MSAL.PS"
+					$Logfile = "$LocalFilePath\signature-$env:username.log"
+					
+					$Oldversion = "$LocalFilePath\$Version_old"
+					$Newversion = "$LocalFilePath\$Version_new"
+
+					# see if the MSAL.PS directory exists - if not create it and also the initial version 0 file
+					if (-not (Test-Path "$LocalFilePath")) {
+							$null = New-Item -Path $localapps -Name "MSAL.PS" -ItemType "directory"
+							$null = New-Item -Path $Oldversion -ItemType "File"
+
+						}	
+					#remove the old log file
+					if (Test-Path $Logfile) {
+							$null = Remove-Item $Logfile
+						}	
+					
+					if (-not (Test-Path $Newversion)) {
+							if (Test-Path $Oldversion) {
+							    $null = Remove-Item $Oldversion
+							}
+							$null = New-Item -Path $Newversion -ItemType "File"
+						} else 	{
+							WriteLog "Already Installed: $Newversion - Exit Script."
+							$Error[0]
+							exit 1
+						}
+
+#Ok to install a new version
+
+-------------------------------------
+* Insert at the end of the script just above: Write host / Write-Host "End script.....
+			
+	if (-not (Test-Path $Newversion)) {
+	#Write a new version number file to prevent reinstall of same version.
+		$null = New-Item -Path $Newversion -ItemType "File"
+	}
+	
+	Start-Sleep -Seconds 1	
+			
+-------------------------------------
+
+* Replace all Write-Verbose and Write-Host text with WriteLog so no output is generated in console but in Log file
+* Save and close Set-OutlookSignatures.ps1
+
+----------------------------------
+#These are all the changes to make.
+  
+Check the new software:  
+	- if exist: delete directory %localappdata%\MSAL.PS
+	- open a powershell and change to the temp directory 
+  - .\install.cmd
+
+If everything is working ok rename the in %localappdata%\MSAL.PS  to the current version so you will also get the new update with the normal update sequence.
+
+Copy everthing to your SMB share for the citrix enveronment.
+  
+Create a new Intune Win App:  
+	run in a powershell window:   Make-IntuneWinApp.ps1
+
+Open https://intune.microsoft.com/	-	Apps	-	All Apps	- search for set-OutlookSignatures
+Open set-OutlookSignatures
+Properties	-	App information - Edit
+Click on "install0000xx.intunewin" and select the new created install0000xx.intunewin from your SMB share or local install dir
+Change the App Version number!!!!!  to the new version number so intune updates when users logs on
+Click review+Save
+if commandline is changed add the changes to the intune install command
+Click review+Save 
+Click review+Save 
+Detection rules - click on %LocalAppData%\MSAL.PS\   - File or folder   change to the new version number so intune updates when users logs on
+Click review+Save 
+Click save
+
+For Habufa Citrix it's configured in RES, it run the install.cmd at Sign in
+------>   check the SMB permissions for install.cmd and Set-OutlookSignatures.ps1  should be "Read & execute" for everyone!
+
+That's it.
+  
