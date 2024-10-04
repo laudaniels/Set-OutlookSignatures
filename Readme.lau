@@ -4,10 +4,14 @@ Then follow the steps in the how2change.txt
 
 I made changes so we can use it in a Citrix with RES-Workspace and Intune systems.
 What did i change?
-  Added a Version Number: Due to the runtime of the software and the few changes we make to the signatures i made a version dependent change.
-                          Everytime a user logs in the software checks is there is a new version. If no new version is found it quits the program.
-                          The version file is created in %LocalAppData%\MSAL.PS
-  Added logging to file:  On the client machine a log is created in %LocalAppData%\MSAL.PS, so with Unattended install you can see what went wrong.
+  - Added a Version Number: 
+    Due to the runtime of the software and the few changes we make to the signatures
+    i made a version dependent change.
+    Everytime a user logs in the software checks is there is a new version. If no new version is found it quits the program.
+    The version file is created in %LocalAppData%\MSAL.PS
+  - Added logging to file:
+    On the client machine a log is created in %LocalAppData%\MSAL.PS
+    with Unattended install you can see what went wrong.
 
 Setup requirements for using this changed code:
   - For citrix a SMB fileshare is used with all Set-OutlookSignature files 
