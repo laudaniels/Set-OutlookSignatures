@@ -1,4 +1,4 @@
-#This file should be placed in and run from the same directory where the IntuneWinAppUtil.exe is located
+#This file should be placed in and run from the same directory where the IntuneWinAppUtil.exe is located (c:\Signatures\)
 $DateStamp = get-date -uformat "%Y-%m-%d--%H-%M-%S"
 $version= "000000"
 
