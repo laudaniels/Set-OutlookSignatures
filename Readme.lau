@@ -1,8 +1,8 @@
 This fork is used to keep track of my own changes to the Set-OutlookSignatures code.
 Follow all directions as stated by Markus Gruber to set things up for Azure.
-Then follow the steps in the how2change.txt
+Then follow the steps in the how2change.txt to change it.
 
-I made changes so we can use it in a Citrix with RES-Workspace and Intune systems.
+I made these changes so we can use it in a Citrix with RES-Workspace and Intune systems.
 What did i change?
   - Added a Version Number: 
     Due to the runtime of the software and the few changes we make to the signatures
@@ -11,11 +11,11 @@ What did i change?
     The version file is created in %LocalAppData%\MSAL.PS
   - Added logging to file:
     On the client machine a log is created in %LocalAppData%\MSAL.PS
-    with Unattended install you can see what went wrong.
+    with Unattended install you can do troubleshooting by consulting the logfile in the users %LocalAppData%\MSAL.PS directory.
 
 Setup requirements for using this changed code:
-  - For citrix a SMB fileshare is used with all Set-OutlookSignature files 
-  - for intune a package file is used with all necessary data inside the package
+  - For citrix a SMB fileshare is used with all Set-OutlookSignature files so Res can set it up (see Res-settings.txt)
+  - for intune a package file is used with all necessary data inside the package, you have to create an intune app (see Intune-settings.txt)
 
 additional programs/instructions:
   - install.bat (for running it silectly from within RES-Workspace or a GPO) 
