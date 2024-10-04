@@ -1,0 +1,18 @@
+This fork is used to keep track of my own changes to the Set-OutlookSignatures code.
+I made changes so we can use it in a Citrix with RES-Workspace and Intune systems.
+What did i change?
+  Added a Version Number: Due to the runtime of the software and the few changes we make to the signatures i made a version dependent change.
+                          Everytime a user logs in the software checks is there is a new version. If no new version is found it quits the program.
+                          The version file is created in %LocalAppData%\MSAL.PS
+  Added logging to file:  On the client machine a log is created in %LocalAppData%\MSAL.PS, so with Unattended install you can see what went wrong.
+
+Setup requirements for using this changed code:
+  - All user data is pulled from Azure by using -GraphOnly $true
+  - For citrix a SMB fileshare is used with all necessary data in it
+  - for intune a package file is used with all necessary data inside the package
+
+additional programs:
+  - install.bat (for running it silectly from within RES-Workspace or a GPO) 
+  - Make-IntuneWinApp.ps1 (for creating the intunewin file) 
+
+That's it.
