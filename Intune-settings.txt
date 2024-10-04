@@ -1,0 +1,18 @@
+Reminder: Set-OutlookSignatures should be registered as Enterprise App in Microsoft Entra as stated in Markus documentation.
+
+Intune settings: 
+Create a Windows app in Intune with the following settings
+
+
+Name: Set-OutlookSignatures 
+App Version: 000000
+Install command: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe  -WindowStyle Hidden -ExecutionPolicy bypass -File Set-OutlookSignatures.ps1 -BenefactorCircleId "xxxxxxxxxxxxxxxxxxxxxxxx" -BenefactorCircleLicenseFile ".\license.dll" -GraphOnly true -your own additional parameters
+Uninstall command: install.cmd 
+Installation time required (mins): 10 
+Allow available uninstall: No 
+Install behavior: User 
+Device restart behavior: No specific action 
+Return codes: 0 Success 
+Detection rule path:	%LocalAppData%\MSAL.PS 
+Detection rule file: 000000 
+Assigments:	Outlook-Signature group
